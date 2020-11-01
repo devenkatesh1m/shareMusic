@@ -1,0 +1,18 @@
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+    font-family: arial;
+    height: 50%;
+  }
+  
+  .title {
+    color: grey;
+    font-size: 18px;
+  }
+  label{
+    height: 60%;
+  }
+ #userImage{
+  object-fit:cover;
+  height: 100%;
+ }

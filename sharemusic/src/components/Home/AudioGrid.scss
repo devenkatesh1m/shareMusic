@@ -1,0 +1,13 @@
+.AudioComponents{
+    display: flex;
+    align-items: flex-start;
+    overflow: auto;
+}
+.Top10List{
+    overflow: auto;
+}
+div{
+    .card{
+        margin-left: 10px;
+    }
+}

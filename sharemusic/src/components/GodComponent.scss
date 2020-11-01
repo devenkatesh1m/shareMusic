@@ -1,0 +1,42 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+.head{
+    height: 10vh;
+}
+.body{
+    display:flex;
+    align-items: center;
+    height:90vh;
+    .leftH,.rightH{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        flex:50%;
+        height:100%;
+    }
+    .leftL{
+        height:100%;
+    }
+    .rightL{
+        display:flex;
+        flex-flow: row wrap;
+        align-items: flex-start;
+        height: 100%;
+        flex:80%;
+    }
+    .leftH{
+        background-color:rgb(5, 53, 85);
+        height: 100%;
+        background-image: url(../images/concert.jpg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        font-size: 30px;
+        color: whitesmoke;
+        font-family: "Open Sans", sans-serif;
+        padding-bottom: 200px;
+    }
+    .rightH{
+        background-color:white;
+        height: 100%;
+    }
+}
