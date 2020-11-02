@@ -33,7 +33,7 @@ class AudioComponent extends Component {
   render() {
     
     return (
-      <div className="card" style={{ width: "18rem" }}>
+      <div className="card" style={{ width: "12rem" }}>
         <img
           className="card-img-top"
           src={require('../../images/defaultmusic.jpg')} 
