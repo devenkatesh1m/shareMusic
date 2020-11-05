@@ -40,8 +40,8 @@ class AudioGrid extends Component {
         console.log("Unable to fetch songs in usersongs", error);
       });
   }
-  playSong = (src) => {
-    this.props.playSong(src);
+  playSong = (src,statesobj) => {
+    this.props.playSong(src,statesobj);
   };
   uploadSong=()=>{
     console.log('Inside change event');

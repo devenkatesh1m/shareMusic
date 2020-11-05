@@ -5,10 +5,15 @@
     border-radius:50%;
     border:1px solid white;
 }
-img{
+.card-img-top{
     object-fit:cover;
     height: 100%;
    }
+#playerSongImage{
+    object-fit: scale-down;
+    height:100px;
+    width:100%;
+}
 button{
     outline: none;
    }

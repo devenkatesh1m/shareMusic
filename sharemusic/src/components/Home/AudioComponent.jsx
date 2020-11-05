@@ -16,7 +16,8 @@ class AudioComponent extends Component {
   constructor(props) {
     super(props);
     this.state={
-      songName:''
+      songName:'',
+      songImage:'https://picsum.photos/id/1027/200/300'
     }
     
   }
@@ -24,7 +25,7 @@ class AudioComponent extends Component {
   playMusic=()=>{
     var pathRef = this.props.FileInfo.location.path_;
     storageRef.child(pathRef).getDownloadURL().then((url)=> {
-        this.props.playSong(url);
+        this.props.playSong(url,this.state);
     }).catch(function(error) {
       console.log("unable to fetch download url "+error);
       console.log(error);
@@ -36,7 +37,7 @@ class AudioComponent extends Component {
       <div className="card" style={{ width: "12rem" }}>
         <img
           className="card-img-top"
-          src={require('../../images/defaultmusic.jpg')} 
+          src={this.state.songImage}
           style={{ width: "100%", height: "80%" }}
           alt="Card image cap"
         />

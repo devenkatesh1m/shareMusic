@@ -11,6 +11,8 @@ class GodComponent extends Component {
     isLoggedIn: false,
     isSigningIn: true,
     currentSong:'dummy.mp3',
+    currentSongName:'',
+    currentSongImage:'https://picsum.photos/id/237/200/300'
   };
   handleLoginForm = (bool) => {
     if (bool) {
@@ -34,8 +36,9 @@ class GodComponent extends Component {
         });
     }
   };
-  playSong=(res)=>{
-    this.setState({currentSong:res});
+  playSong=(res,statesobj)=>{
+    this.setState({currentSong:res,currentSongName:statesobj.songName,
+    currentSongImage:statesobj.songImage});
   }
   render() {
     let leftClass = this.state.isLoggedIn ? "leftL" : "leftH";
