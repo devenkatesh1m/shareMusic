@@ -4,6 +4,7 @@ import database from "../../config/database";
 import storageRef from "../../config/storage";
 import AudioComponent from "../Home/AudioComponent";
 import "./AudioGrid.scss";
+import $ from "jquery";
 class AudioGrid extends Component {
   state = {
     Top10AudioComponentsList: [],
@@ -44,6 +45,7 @@ class AudioGrid extends Component {
     this.props.playSong(src,statesobj);
   };
   uploadSong=()=>{
+    console.log('closest h1',this);
     console.log('Inside change event');
     var song=document.getElementById("uploadSongs").files[0];
     var userid = fire.auth().currentUser.uid;
@@ -72,7 +74,7 @@ class AudioGrid extends Component {
           </div>
         </div>
         <div className="PlayList">
-          <h1>My play List</h1>
+          <h1 contentEditable="true" id="My play List">My play List</h1>
           <label>
             <button className="btn btn-primary" onClick={()=>{document.getElementById('uploadSongs').click();}}>Upload Song</button>
             <input

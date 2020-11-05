@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import GodComponent from './components/GodComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import fire from './config/fire';
+import 'jquery/dist/jquery.js';
 ReactDOM.render(
   <React.StrictMode>
     <GodComponent />
