@@ -41,19 +41,42 @@ class AudioGrid extends Component {
         console.log("Unable to fetch songs in usersongs", error);
       });
   }
-  playSong = (src,statesobj) => {
-    this.props.playSong(src,statesobj);
+  playSong = (src, statesobj) => {
+    this.props.playSong(src, statesobj);
   };
-  uploadSong=()=>{
-    console.log('closest h1',this);
-    console.log('Inside change event');
-    var song=document.getElementById("uploadSongs").files[0];
-    var userid = fire.auth().currentUser.uid;
-    storageRef.child("users/" + userid + "/songs/"+song.name).put(song).then(function(snapshot) {
-      console.log('Uploaded a blob or file!',snapshot);
-    })
-    .catch(function(error){
-        console.log('error in file upload',error);
+  uploadSong = () => {
+    var songs = document.getElementById("uploadSongs").files;
+    console.log(typeof songs);
+    songs = Array.from(songs);
+    console.log(typeof songs);
+    songs.map((song) => {
+      var jsmediatags = require("jsmediatags");
+      jsmediatags.read(song, {
+        onSuccess: function (tag) {
+          console.log(tag);
+          var songPicture = tag.tags.picture.description;
+          var songTitle = tag.tags.title;
+          var songmetadata = {
+            customMetadata: {
+              'songPicture': songPicture,
+              'songTitle': songTitle
+            },
+          };
+          var userid = fire.auth().currentUser.uid;
+          storageRef
+            .child("users/" + userid + "/songs/" + song.name)
+            .put(song,songmetadata)
+            .then(function (snapshot) {
+              console.log("Uploaded a blob or file!", snapshot);
+            })
+            .catch(function (error) {
+              console.log("error in file upload", error);
+            });
+        },
+        onError: function (error) {
+          console.log(":(", error.type, error.info);
+        },
+      });
     });
   };
   render() {
@@ -74,15 +97,25 @@ class AudioGrid extends Component {
           </div>
         </div>
         <div className="PlayList">
-          <h1 contentEditable="true" id="My play List">My play List</h1>
+          <h1 contentEditable="true" id="My play List">
+            My play List
+          </h1>
           <label>
-            <button className="btn btn-primary" onClick={()=>{document.getElementById('uploadSongs').click();}}>Upload Song</button>
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                document.getElementById("uploadSongs").click();
+              }}
+            >
+              Upload Song
+            </button>
             <input
               type="file"
               style={{ display: "none" }}
               id="uploadSongs"
               onChange={this.uploadSong}
               accept=".mp3,"
+              multiple
             ></input>
           </label>
           {!this.state.userAudioComponentsList.length == 0 && (
