@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import fire from "../../config/fire";
-import database from "../../config/database";
 import storageRef from "../../config/storage";
+import fire from "../../config/fire";
 import AudioComponent from "../Home/AudioComponent";
+import UserPlayList from "../Home/UserPlayList";
 import "./AudioGrid.scss";
 import $ from "jquery";
 class AudioGrid extends Component {
@@ -13,11 +13,7 @@ class AudioGrid extends Component {
   constructor(props) {
     super(props);
     let Top10ComponentsList = this.state.Top10AudioComponentsList;
-    let userComponentsList = this.state.userAudioComponentsList;
-    storageRef
-      .child("Top10/")
-      .listAll()
-      .then((res) => {
+    storageRef.child("Top10/").listAll().then((res) => {
         res.items.forEach(function (itemRef) {
           Top10ComponentsList.push(itemRef);
           console.log("itemRef", itemRef);
@@ -27,58 +23,17 @@ class AudioGrid extends Component {
       .catch(function (error) {
         console.log("Unable to fetch songs", error);
       });
-    var userid = fire.auth().currentUser.uid;
-    storageRef
-      .child("users/" + userid + "/songs")
-      .listAll()
-      .then((res) => {
-        res.items.forEach(function (itemRef) {
-          userComponentsList.push(itemRef);
-        });
-        this.setState({ userAudioComponentsList: userComponentsList });
-      })
-      .catch(function (error) {
-        console.log("Unable to fetch songs in usersongs", error);
-      });
   }
   playSong = (src, statesobj) => {
     this.props.playSong(src, statesobj);
   };
-  uploadSong = () => {
-    var songs = document.getElementById("uploadSongs").files;
-    console.log(typeof songs);
-    songs = Array.from(songs);
-    console.log(typeof songs);
-    songs.map((song) => {
-      var jsmediatags = require("jsmediatags");
-      jsmediatags.read(song, {
-        onSuccess: function (tag) {
-          console.log(tag);
-          var songPicture = tag.tags.picture.description;
-          var songTitle = tag.tags.title;
-          var songmetadata = {
-            customMetadata: {
-              'songPicture': songPicture,
-              'songTitle': songTitle
-            },
-          };
-          var userid = fire.auth().currentUser.uid;
-          storageRef
-            .child("users/" + userid + "/songs/" + song.name)
-            .put(song,songmetadata)
-            .then(function (snapshot) {
-              console.log("Uploaded a blob or file!", snapshot);
-            })
-            .catch(function (error) {
-              console.log("error in file upload", error);
-            });
-        },
-        onError: function (error) {
-          console.log(":(", error.type, error.info);
-        },
-      });
-    });
-  };
+  addPlayList=()=>{
+    let playListName=document.getElementById("newPlayListName");
+    if(playListName){
+      var userid = fire.auth().currentUser.uid;
+      storageRef.child('users/'+userid+'/PlayLists/'+playListName.value);
+    }
+  }
   render() {
     //let AudioObjects = this.state.Top10AudioComponentsList;
     let i = 1;
@@ -96,45 +51,12 @@ class AudioGrid extends Component {
             ))}
           </div>
         </div>
-        <div className="PlayList">
-          <h1 contentEditable="true" id="My play List">
-            My play List
-          </h1>
-          <label>
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                document.getElementById("uploadSongs").click();
-              }}
-            >
-              Upload Song
-            </button>
-            <input
-              type="file"
-              style={{ display: "none" }}
-              id="uploadSongs"
-              onChange={this.uploadSong}
-              accept=".mp3,"
-              multiple
-            ></input>
-          </label>
-          {!this.state.userAudioComponentsList.length == 0 && (
-            <div className="AudioComponents">
-              {this.state.userAudioComponentsList.map((AudioObject) => (
-                <AudioComponent
-                  key={i++}
-                  playSong={this.playSong}
-                  FileInfo={AudioObject}
-                />
-              ))}
-            </div>
-          )}
-          {this.state.userAudioComponentsList.length == 0 && (
-            <div className="AudioComponents">
-              <div>No songs in the list</div>
-            </div>
-          )}
-        </div>
+        {/*My playList*/}
+        <UserPlayList
+        playSong={this.playSong}
+        />
+        <button className="btn btn-primary" onClick={this.addPlayList()}>Add PlayList</button>
+        <input type="text" class="form-control" id="newPlayListName" />
       </React.Fragment>
     );
   }
