@@ -5,22 +5,23 @@ import AudioComponent from "../Home/AudioComponent";
 export default class Userplaylist extends Component {
     state = {
         userAudioComponentsList: [],
+        PlayListName:''
       };
   constructor(props) {
     super(props);
-    this.renderMusicFiles();
+    this.renderMusicFiles(props.playListName);
   }
-  renderMusicFiles=()=>{
+  renderMusicFiles=(PlayListName)=>{
     let userComponentsList = [];
     var userid = fire.auth().currentUser.uid;
     storageRef
-      .child("users/" + userid + "/songs")
+      .child(PlayListName+"/")
       .listAll()
       .then((res) => {
         res.items.forEach(function (itemRef) {
           userComponentsList.push(itemRef);
         });
-        this.setState({ userAudioComponentsList: userComponentsList });
+        this.setState({ userAudioComponentsList: userComponentsList,PlayListName:PlayListName.substring(PlayListName.lastIndexOf('/')+1)});
       })
       .catch(function (error) {
         console.log("Unable to fetch songs in usersongs", error);
@@ -30,7 +31,7 @@ export default class Userplaylist extends Component {
     this.renderMusicFiles();
   };
   uploadSong = () => {
-    let songUploadFLag=false;
+    //let songUploadFLag=false;
     var songs = document.getElementById("uploadSongs").files;
     console.log(typeof songs);
     songs = Array.from(songs);
@@ -63,9 +64,6 @@ export default class Userplaylist extends Component {
         },
       });
     });
-    // if(songUploadFLag){
-        
-    // }
   };
   playSong = (src, statesobj) => {
     this.props.playSong(src, statesobj);
@@ -75,8 +73,8 @@ export default class Userplaylist extends Component {
     return (
       <>
         <div className="PlayList">
-          <h1 contentEditable="true" id="My play List">
-            My play List
+          <h1 contentEditable="true" id={this.state.PlayListName}>
+          {this.state.PlayListName}
           </h1>
           <label>
             <button
