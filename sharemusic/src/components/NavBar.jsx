@@ -4,8 +4,10 @@ class NavBar extends Component {
   constructor(props) {
     super(props);
   }
-    render() { 
+  showSearchResults=()=>{
 
+  }
+    render() { 
       let inputClass="form-control mr-sm-2 w-25 p-3 ";
       let LogOutbuttonClass="btn btn-outline-success my-2 my-sm-0 ";
       let buttonClassLogin="btn btn-outline-success my-2 my-sm-0 m-3 ";
@@ -31,7 +33,7 @@ class NavBar extends Component {
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto"></ul>
-              <input className={inputClass}  type="search" placeholder="Search" aria-label="Search"/>
+              <input className={inputClass} onInput={this.showSearchResults} type="search" placeholder="Search" aria-label="Search"/>
               <button className={LogOutbuttonClass} onClick={()=>this.props.loginUser(false)} type="submit">Logout</button>
               <button className={buttonClassLogin} onClick={()=>this.props.LoginForm(true)} type="submit">Login</button>
               <button className={buttonClassSignup} onClick={()=>this.props.LoginForm(false)} type="submit">Register</button>
