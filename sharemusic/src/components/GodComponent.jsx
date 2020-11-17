@@ -3,6 +3,7 @@ import NavBar from "./NavBar";
 import MasterLogin from "./login/MasterLogin";
 import "../components/GodComponent.scss";
 import fire from "../config/fire";
+import storageRef from "../config/storage";
 import Audioplayer from "../components/Home/Audioplayer";
 import UserProfile from "../components/Home/userProfile";
 import AudioGrid from "../components/Home/AudioGrid";
@@ -12,8 +13,13 @@ class GodComponent extends Component {
     isSigningIn: true,
     currentSong:'dummy.mp3',
     currentSongName:'',
-    currentSongImage:'https://picsum.photos/id/237/200/300'
+    currentSongImage:'https://picsum.photos/id/237/200/300',
+    userPlayLists:[]
   };
+  deletePlayListHandler=(playListPath)=>{
+    const userPlayLists=this.state.userPlayLists.filter(path=>path!=playListPath);
+    this.setState({userPlayLists});
+  }
   handleLoginForm = (bool) => {
     if (bool) {
       this.setState({ isSigningIn: true });
@@ -21,8 +27,22 @@ class GodComponent extends Component {
       this.setState({ isSigningIn: false });
     }
   };
+  loadUserPlayLists=()=>{
+    let userPlayLists = [];
+    var userid = fire.auth().currentUser.uid;
+    storageRef.child("users/" + userid + "/PlayLists/").listAll().then((res) => {
+        res.prefixes.forEach(function (itemRef) {
+          userPlayLists.push(itemRef.location.path_);
+        });
+        this.setState({ userPlayLists: userPlayLists });
+      })
+      .catch(function (error) {
+        console.log("Unable to fetch songs", error);
+      });
+  }
   handleUserLogin = (bool) => {
     if (bool) {
+      this.loadUserPlayLists();
       this.setState({ isLoggedIn: true });
     } else {
       fire
@@ -76,7 +96,7 @@ class GodComponent extends Component {
                 loginUser={this.handleUserLogin}
               />
             )}
-            {this.state.isLoggedIn && <AudioGrid playSong={this.playSong}/>}
+            {this.state.isLoggedIn && <AudioGrid playSong={this.playSong} userPlayLists={this.state.userPlayLists} deletePlayListHandler={this.deletePlayListHandler}/>}
           </div>
         </div>
       </React.Fragment>

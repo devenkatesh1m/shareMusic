@@ -63,7 +63,7 @@ class AudioComponent extends Component {
             <button className="playBtn" onClick={this.playMusic}>
               <FontAwesomeIcon icon={faPlayCircle} />
             </button>
-                <h5>{this.state.songName}</h5>
+                <span>{this.state.songName}</span>
           </h5>
         </div>
       </div>

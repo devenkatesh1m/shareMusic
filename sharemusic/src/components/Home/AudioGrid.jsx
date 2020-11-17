@@ -12,29 +12,23 @@ class AudioGrid extends Component {
   };
   constructor(props) {
     super(props);
-    this.renderPage();
+    //this.renderPage();
   }
   renderPage=()=>{
-    let Top10ComponentsList = [];
+    //let Top10ComponentsList = [];
+    // storageRef.child("Top10/").listAll().then((res) => {
+    //     res.items.forEach(function (itemRef) {
+    //       Top10ComponentsList.push(itemRef);
+    //       //console.log("itemRef", itemRef);
+    //     });
+    //     this.setState({ Top10AudioComponentsList: Top10ComponentsList });
+    //   })
+    //   .catch(function (error) {
+    //     console.log("Unable to fetch songs", error);
+    //   });
     let userPlayLists = [];
-    storageRef
-      .child("Top10/")
-      .listAll()
-      .then((res) => {
-        res.items.forEach(function (itemRef) {
-          Top10ComponentsList.push(itemRef);
-          //console.log("itemRef", itemRef);
-        });
-        this.setState({ Top10AudioComponentsList: Top10ComponentsList });
-      })
-      .catch(function (error) {
-        console.log("Unable to fetch songs", error);
-      });
     var userid = fire.auth().currentUser.uid;
-    storageRef
-      .child("users/" + userid + "/PlayLists/")
-      .listAll()
-      .then((res) => {
+    storageRef.child("users/" + userid + "/PlayLists/").listAll().then((res) => {
         res.prefixes.forEach(function (itemRef) {
           userPlayLists.push(itemRef.location.path_);
         });
@@ -50,13 +44,15 @@ class AudioGrid extends Component {
   playSong = (src, statesobj) => {
     this.props.playSong(src, statesobj);
   };
-
+  deletePlayListHandler=(playListPath)=>{
+    this.props.deletePlayListHandler(playListPath);
+  }
   render() {
     //let AudioObjects = this.state.Top10AudioComponentsList;
     let i = 1;
     return (
       <React.Fragment>
-        <div className="Top10List">
+        {/* <div className="Top10List">
           <h1>Top 10</h1>
           <div className="AudioComponents">
             {this.state.Top10AudioComponentsList.map((AudioObject) => (
@@ -67,11 +63,11 @@ class AudioGrid extends Component {
               />
             ))}
           </div>
-        </div>
+        </div> */}
         {/*My playList*/}
         {/*<UserPlayList playSong={this.playSong} />*/}
-        {this.state.userPlayLists.map((playListObj) => (
-          <UserPlayList playSong={this.playSong} playListName={playListObj} key={Math.random()}/>
+        {this.props.userPlayLists.map((playListObj) => (
+          <UserPlayList playSong={this.playSong} playListName={playListObj} key={Math.random()} deletePlayListHandler={this.deletePlayListHandler}/>
         ))}
         <div>
           <label>
@@ -95,7 +91,7 @@ class AudioGrid extends Component {
             ></input>
           </label>
 
-          <input type="text" class="form-control" id="newPlayListName" />
+          <input type="text" className="form-control" id="newPlayListName" />
         </div>
       </React.Fragment>
     );
@@ -115,6 +111,10 @@ class AudioGrid extends Component {
       //console.log(typeof songs);
       songs = Array.from(songs);
       //console.log(typeof songs);
+      var userid = fire.auth().currentUser.uid;
+      fire.database().ref('users/' + userid+"/PlayList/"+playListName.value).set({
+        isPublic:false
+      });
       songs.map((song) => {
         var jsmediatags = require("jsmediatags");
         jsmediatags.read(song, {
