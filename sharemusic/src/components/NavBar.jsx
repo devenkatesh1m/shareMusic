@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import fire from "../config/fire";
 import storageRef from "../config/storage";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faFileAudio} from '@fortawesome/free-solid-svg-icons';
+import "./NavBar.scss"
 class NavBar extends Component {
   constructor(props) {
     super(props);
@@ -67,37 +70,45 @@ class NavBar extends Component {
     //searchInput.nextElementSibling.childNodes[0]="";
     var currentDiv =0;
     for(var i=0;i<publicPlayLists.length;i++){
-      
+        if(searchInputValue==''){
+          searchInput.nextElementSibling.childNodes[0].innerHTML='';
+          searchInput.nextElementSibling.childNodes[1].innerHTML='';
+          searchInput.nextElementSibling.childNodes[2].innerHTML='';
+        }
         if(publicPlayLists[i].substring(0,searchInputValue.length)==searchInputValue&&currentDiv<3){
           searchInput.nextElementSibling.childNodes[currentDiv].innerHTML=publicPlayLists[i];
+          searchInput.nextElementSibling.childNodes[currentDiv].style.padding='3px';
           currentDiv++;
       }
     }
     console.log('publicPlayLists',publicPlayLists);
   };
   render() {
-    let inputClass = "form-control mr-sm-2 w-25 p-3 ";
-    let LogOutbuttonClass = "btn btn-outline-success my-2 my-sm-0 ";
-    let buttonClassLogin = "btn btn-outline-success my-2 my-sm-0 m-3 ";
-    let buttonClassSignup = "btn btn-outline-success my-2 my-sm-0 m-3 ";
+    let inputClass = "form-control ";
+    let LogOutbuttonClass = "button  my-2 my-sm-0 ";
+    let buttonClassLogin = "button btnoutline  my-2 my-sm-0 ";
+    let buttonClassSignup = "button btnoutline  my-2 my-sm-0 ";
     inputClass += this.props.propsofGD.isLoggedIn ? "" : "d-none";
     LogOutbuttonClass += this.props.propsofGD.isLoggedIn ? "" : "d-none";
     buttonClassLogin += this.props.propsofGD.isLoggedIn ? "d-none" : "";
     buttonClassSignup += this.props.propsofGD.isLoggedIn ? "d-none" : "";
     if (this.props.propsofGD.isSigningIn) {
-      buttonClassLogin = buttonClassLogin.replace("outline-", "");
+      buttonClassSignup = buttonClassLogin.replace("btnoutline", "");
+      
     } else {
-      buttonClassSignup = buttonClassLogin.replace("outline-", "");
+      buttonClassLogin = buttonClassLogin.replace("btnoutline", "");
     }
 
     return (
       <React.Fragment>
         <nav
           style={{ height: "100%" }}
-          className="navbar navbar-expand-lg navbar-light bg-light"
+          className="navbar navbar-expand-lg navbar-light"
+          id="NavBar"
         >
-          <a className="navbar-brand" href="#">
-            shareMusic
+          <a className="navbar-brand" href="#" id="Icon">
+              {/* <FontAwesomeIcon icon={faFileAudio} size="lg"/> */}
+            <span  className="share">share</span><span className="Music"><span style={{borderBottom:"2px solid  #0e2473"}}>M</span>usic</span>
           </a>
           <button
             className="navbar-toggler"
@@ -125,7 +136,7 @@ class NavBar extends Component {
                 aria-haspopup="true" aria-expanded="false"
                 data-toggle="dropdown"
               />
-              <ul className="dropdown-menu">
+              <ul className="dropdown-menu" id="dropDown" style={{width:"-webkit-fill-available"}}>
                 <li onClick={e=>this.AddPlayList(e.target)} value="test"></li>
                 <li onClick={e=>this.AddPlayList(e.target)} value="test"></li>
                 <li onClick={e=>this.AddPlayList(e.target)} value="test"></li>

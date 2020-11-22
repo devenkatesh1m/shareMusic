@@ -12,7 +12,6 @@ export default class Userplaylist extends Component {
   constructor(props) {
     super(props);
     this.renderMusicFiles(props.playListName);
-    
   }
   toggleAccess = () => {
     var accessStatus = document.getElementById(this.state.PlayListName+"accessToggler").checked;
@@ -134,14 +133,7 @@ export default class Userplaylist extends Component {
             {this.state.PlayListName}
           </h1>
           <label>
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                document.getElementById("uploadSongs").click();
-              }}
-            >
-              Upload Song
-            </button>
+            <button className="btn btn-primary" onClick={() => {document.getElementById("uploadSongs").click();}}>Upload Song</button>
             <input
               type="file"
               style={{ display: "none" }}

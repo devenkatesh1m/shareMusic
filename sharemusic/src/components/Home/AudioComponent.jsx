@@ -49,22 +49,18 @@ class AudioComponent extends Component {
     });
   }
   render() {
-    
     return (
-      <div className="card" style={{ width: "12rem" }}>
+      <div className="musicFileCard" style={{ width: "12rem" }}>
         <img
-          className="card-img-top"
+          className="albumArt"
           src={this.state.songImage}
-          style={{ width: "100%", height: "80%" }}
           alt="Card image cap"
         />
-        <div className="card-body">
-          <h5 className="card-title">
+        <div className="musicDesc">
             <button className="playBtn" onClick={this.playMusic}>
               <FontAwesomeIcon icon={faPlayCircle} />
             </button>
-                <span>{this.state.songName}</span>
-          </h5>
+            <div className="songTitleAC" title={this.state.songName}>{this.state.songName}</div>
         </div>
       </div>
     );

@@ -3,6 +3,8 @@ import "./userProfile.scss";
 import fire from "../../config/fire";
 import database from "../../config/database";
 import storageRef from "../../config/storage";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPen} from "@fortawesome/free-solid-svg-icons";
 class UserProfile extends React.Component {
   changePP = () => {
     var profilePic = document.getElementById("profilePicUpload").files[0];
@@ -34,7 +36,9 @@ class UserProfile extends React.Component {
         });
     }
   };
-
+  UploadPic=()=>{
+    document.getElementById("profilePicUpload").click();
+  }
   render() {
     var user = fire.auth().currentUser.uid;
     var username = "";
@@ -82,27 +86,28 @@ class UserProfile extends React.Component {
       });
 
     return (
-      <React.Fragment>
-        <div className="card">
-          <label>
-            <img
-              id="userImage"
-              alt="John"
-              style={{ width: "100%" }}
-              onClick={this.testing}
-            />
-            <input
-              type="file"
-              style={{ display: "none" }}
-              id="profilePicUpload"
-              onChange={this.changePP}
-              accept=".jpg,"
-            ></input>
-          </label>
-          <h1 id="username"></h1>
-          <p className="title" id="genderAgeTag"></p>
+      <div className="userCard">
+        <div className="picture">
+          <img id="userImage" className="img-fluid" alt="User Image"/>
+          <input type="file" style={{ display: "none" }} id="profilePicUpload" onChange={this.changePP} accept=".jpg,"></input>
         </div>
-      </React.Fragment>
+        <div className="team-content">
+          <h1 id="username"></h1>
+          <h4 className="title" id="genderAgeTag">Web Developer</h4>
+        </div>
+        <ul className="social">
+          <li onClick={this.UploadPic}><FontAwesomeIcon icon={faPen}></FontAwesomeIcon></li>
+        </ul>
+      </div>
+      
+        // {/* <div className="card">
+        //   <label>
+        //     <img id="userImage" alt="User Image" style={{ width: "100%" }} onClick={this.testing} />
+        //     <input type="file" style={{ display: "none" }} id="profilePicUpload" onChange={this.changePP} accept=".jpg,"></input>
+        //   </label>
+        //   <h1 id="username"></h1>
+        //   <p className="title" id="genderAgeTag"></p>
+        // </div> */}
     );
   }
 }

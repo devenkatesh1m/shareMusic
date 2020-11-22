@@ -1,5 +1,7 @@
 import React from "react";
 import fire from '../../config/fire';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faTimesCircle} from '@fortawesome/free-solid-svg-icons'
 export class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -8,20 +10,24 @@ export class Login extends React.Component {
     var email = document.getElementsByName("username")[0].value;
     var password = document.getElementsByName("password")[0].value;
     let loggedin=0;
-    fire.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+    fire.auth().signInWithEmailAndPassword(email, password).then((result)=>{
+        this.props.loginUser();
+    }).catch(function (error) {
         loggedin=1;
         var errorCode = error.code;
         var errorMessage = error.message;
-        document.getElementsByClassName("loginError")[0].innerHTML="Wrong password bitch";
+        if(errorCode=='auth/user-not-found'){
+          document.getElementsByClassName("loginError")[0].innerHTML="User does not Exist";
+        }
+        else if(errorCode=='auth/invalid-emai'){
+          document.getElementsByClassName("loginError")[0].innerHTML="Invalid Email";
+        }
+        else{
+          document.getElementsByClassName("loginError")[0].innerHTML="Incorrect password";
+        }
         console.log('errorCode'+errorCode);
         console.log('errorMessage'+errorMessage);
       });
-    setTimeout(()=>{
-      if(loggedin==0){
-        this.props.loginUser();
-      }
-    },1000);
-      
     var user = fire.auth().currentUser;
     var name, email, photoUrl, uid, emailVerified;
     if (user != null) {

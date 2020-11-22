@@ -1,18 +1,63 @@
 import React, { Component } from "react";
+import "./Audioplayer.scss"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPlay,faStepForward,faStepBackward,faPause} from "@fortawesome/free-solid-svg-icons";
 export default class Audioplayer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isSongPlaying:true
+    };
+  }
+  setSeekBar=()=>{
+    let audioControl=document.getElementsByTagName('audio')[0];
+    let audioSeekBar=document.getElementById("seekBar");
+    audioSeekBar.max=audioControl.duration;
+    audioControl.ontimeupdate=()=>{
+      audioSeekBar.value=audioControl.currentTime;
+      console.log(audioControl.currentTime);
+    }
+    
+  }
+  changeSeekBar=()=>{
+    let audioControl=document.getElementsByTagName('audio')[0];
+    let audioSeekBar=document.getElementById("seekBar");
+    audioControl.currentTime=audioSeekBar.value;
+  }
+  toggleSongState=()=>{
+    let audioControl=document.getElementsByTagName('audio')[0];
+    if(audioControl.paused){
+      audioControl.play();
+      this.setState({isSongPlaying:true});
+    }
+    else{
+      this.setState({isSongPlaying:false});
+      audioControl.pause();
+    }
   }
   render() {
-    let imageurl=this.props.propsofGD.currentSongImage;
+    let imageurl = this.props.propsofGD.currentSongImage;
+    let playPauseButton=this.state.isSongPlaying?faPause:faPlay;
     return (
-      <React.Fragment>
-      <img src={imageurl}  id="playerSongImage" alt="" />
-      <h1>{this.props.propsofGD.currentSongName}</h1>
-      <audio controls style={{width:'100%'}} src={this.props.propsofGD.currentSong} autoPlay>
-      </audio>
-      </React.Fragment>
+      <div className="AudioPlayer">
+        <div className="picture">
+          <img src={imageurl} id="playerSongImageA" alt="" />
+        </div>
+        <div className="SongTitle" title={this.props.propsofGD.currentSongName}>
+        {this.props.propsofGD.currentSongName}
+        </div>
+        <div className="audioControls">
+            <div className="BtnControls">
+                <span className="prev Btn"><FontAwesomeIcon icon={faStepBackward}/></span>
+                <span onClick={this.toggleSongState} className="play Btn"><FontAwesomeIcon icon={playPauseButton}/></span>
+                <span className="next Btn"><FontAwesomeIcon icon={faStepForward}/></span>
+            </div>
+          <div className="seekbarControl">
+            <input type="range" id="seekBar" min="0" max="100" onChange={this.changeSeekBar} className="slider" value="0"/>
+          </div>
+        </div>
+        <audio controls style={{display:"none" }} src={this.props.propsofGD.currentSong} onPlaying={this.setSeekBar} autoPlay></audio>
+      </div>
     );
   }
 }

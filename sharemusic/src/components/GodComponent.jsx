@@ -11,7 +11,7 @@ class GodComponent extends Component {
   state = {
     isLoggedIn: false,
     isSigningIn: true,
-    currentSong:'dummy.mp3',
+    currentSong:'',
     currentSongName:'',
     currentSongImage:'https://picsum.photos/id/237/200/300',
     userPlayLists:[]
@@ -61,8 +61,9 @@ class GodComponent extends Component {
     currentSongImage:statesobj.songImage});
   }
   render() {
-    let leftClass = this.state.isLoggedIn ? "leftL" : "leftH";
-    let rightClass = this.state.isLoggedIn ? "rightL" : "rightH";
+    let leftClass = this.state.isLoggedIn ? "leftLoggedIn" : "leftHome";
+    let rightClass = this.state.isLoggedIn ? "rightLoggedIn" : "rightHome";
+    let bodyClass=this.state.isLoggedIn?"bodyLoggedIn":"bodyHome"
     return (
       <React.Fragment>
         <div className="head">
@@ -72,7 +73,7 @@ class GodComponent extends Component {
             LoginForm={this.handleLoginForm}
           />
         </div>
-        <div className="body">
+        <div className={bodyClass}>
           <div className={leftClass}>
             {this.state.isLoggedIn && (
               <UserProfile
@@ -81,7 +82,7 @@ class GodComponent extends Component {
                 loginUser={this.handleUserLogin}
               />
             )}
-            {this.state.isLoggedIn && (
+            {this.state.isLoggedIn && this.state.currentSong &&(
               <Audioplayer
               propsofGD={this.state}
               />
