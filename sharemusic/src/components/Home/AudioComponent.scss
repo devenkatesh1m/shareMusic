@@ -1,18 +1,40 @@
 .musicFileCard{
-    margin: 5px;
-    border-radius: 10px;
-    box-shadow: 5px 5px 5px whitesmoke;
-    background-color: white;
+    margin: 5px 20px;
+    border-radius: 5px;
+    background-color: rgb(25, 25, 25);
+    height: 250px;
+    width: 200px;
+    .picture{
+        height: 75%;
+        width: 95%;
+        z-index: 1;
+        margin: 5px;
+        position: relative;
+    }
+    &:hover{
+        background-color: rgb(35, 35, 35);
+    }
 }
 img.albumArt{
     width: 100%;
-    height: 150px;
+    height: 100%;
     transform: scale(1);
     transition: all 0.9s ease 0s;
     object-fit: cover;
 }
+
 .playBtn{
     display: contents;
+    color: white;
+    font-size: 13px;
+    margin: 0px 10px;
+    transition: font-size 1s;
+    &:hover{
+        font-size: 18px;
+    }
+    svg{
+        margin: 0 7px !important;
+    }
 }
 .musicDesc{
     display: flex;
@@ -20,8 +42,10 @@ img.albumArt{
 }
 .songTitleAC{
     text-overflow: ellipsis;
-    overflow: hidden; 
+    overflow: hidden;
     font-weight: 600;
-    height: 1.4em; 
-    white-space: nowrap;
+    height: 3.4em;
+}
+svg{
+    margin: 10px;
 }

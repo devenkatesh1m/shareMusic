@@ -15,7 +15,6 @@ export default class Audioplayer extends Component {
     audioSeekBar.max=audioControl.duration;
     audioControl.ontimeupdate=()=>{
       audioSeekBar.value=audioControl.currentTime;
-      console.log(audioControl.currentTime);
     }
     
   }

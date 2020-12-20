@@ -107,7 +107,7 @@ export class Register extends React.Component {
         <div className="footer">
           <button
             type="button"
-            className="btn btn-primary"
+            className="button btnoutline"
             onClick={this.registerUser}
           >
             Register

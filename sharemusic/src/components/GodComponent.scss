@@ -33,9 +33,18 @@
 .bodyLoggedIn{
     display: grid;
     grid-template-columns: 20% 1% 79% ;
+    background-color: #121212;
     .leftLoggedIn{
+        background-color: #121212;
         height: 100vh;
         display: grid;
         grid-template-rows:45% 45%;
+    }
+    .HLine{
+        background-color: #121212;
+    }
+    .rightLoggedIn{
+        background-color: #121212;
+        color: white;
     }
 }

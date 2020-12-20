@@ -5,13 +5,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faFileAudio} from '@fortawesome/free-solid-svg-icons';
 import "./NavBar.scss"
 class NavBar extends Component {
-  constructor(props) {
-    super(props);
+  componentDidMount(){
     fire.database().ref("PublicPlayList/").once("value").then((snapshot)=>{
       var searchOptions=snapshot.val();
       console.log('searchOptions',searchOptions);
       this.setState({publicPlayLists:searchOptions});
     });
+  }
+  constructor(props) {
+    super(props);
   }
   AddPlayList = (event) => {
     var playListName=event.innerHTML;
@@ -60,7 +62,6 @@ class NavBar extends Component {
   //   console.log('Adding PlayLists is working',event);
   //   var playListName=event.innerHTML;
   //   console.log('This is the playListName',playListName);
-
   // }
   showSearchResults = () => {
     let publicPlayLists=this.state.publicPlayLists;

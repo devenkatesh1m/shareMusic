@@ -2,10 +2,9 @@
     width: 92%;
     height: 100%;
     margin: 10px;
-    border-radius: 10px;
-    box-shadow: 5px 5px 5px whitesmoke;
-    background-color: white;
-
+    border-radius: 5px;
+    background-color: rgb(35, 35, 35);
+    color: whitesmoke;
 }
 .SongTitle{
     text-overflow: ellipsis;
@@ -34,12 +33,15 @@ img#playerSongImageA{
     flex-direction: row;
     justify-content: space-evenly;
     span{
+        cursor: pointer;
+        font-size: 25px;
         margin-left: 10px;
         margin-right: 10px;
     }
 }
 .seekbarControl{
     width: 95%;
+    margin: 5px;
     input{
         width: 100%;
     }
@@ -55,23 +57,20 @@ img#playerSongImageA{
             height: 1px;
             cursor: pointer;
             box-shadow: none;
-            background: #131212;
+            background: whitesmoke;
             border-radius: 0px;
-            border: 0px solid #010101;
+            border: 0px solid whitesmoke;
         }
-        
-      
         &::-webkit-slider-thumb {
             box-shadow: none;
-            border: 0px solid #292626;
-            box-shadow: 0px 10px 10px rgba(0,0,0,0.25);
+            border: 0px solid whitesmoke;
             height: 12px;
             width: 12px;
             border-radius: 22px;
-            background: rgb(14, 13, 13);
+            background: whitesmoke;
             cursor: pointer;
             -webkit-appearance: none;
-            margin-top: -20px;
+            margin-top: -5px;
         }
       &::-moz-range-thumb{
             box-shadow: none;
